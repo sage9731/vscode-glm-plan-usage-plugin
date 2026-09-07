@@ -126,6 +126,19 @@ export async function activate(context: vscode.ExtensionContext) {
         }
     );
 
+    const viewDetailsCommand = vscode.commands.registerCommand(
+        'glmPlanUsage.viewDetails',
+        async () => {
+            // 先打开侧栏再强制刷新，侧栏立即可见，数据到达后自动更新
+            vscode.commands.executeCommand('workbench.view.extension.glmPlanUsage');
+            if (!(await ConfigManager.hasValidConfig())) {
+                vscode.commands.executeCommand('glmPlanUsage.setToken');
+                return;
+            }
+            await queryUsage(true);
+        }
+    );
+
     const openSettingsCommand = vscode.commands.registerCommand(
         'glmPlanUsage.openSettings',
         () => {
@@ -168,6 +181,7 @@ export async function activate(context: vscode.ExtensionContext) {
     );
 
     context.subscriptions.push(queryCommand);
+    context.subscriptions.push(viewDetailsCommand);
     context.subscriptions.push(setTokenCommand);
     context.subscriptions.push(openSettingsCommand);
     context.subscriptions.push(toggleTokenUnitCommand);

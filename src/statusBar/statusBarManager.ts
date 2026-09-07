@@ -21,9 +21,14 @@ export class StatusBarManager implements vscode.Disposable {
             100
         );
 
-        this.statusItem.command = 'workbench.view.extension.glmPlanUsage';
+        this.statusItem.command = 'glmPlanUsage.refresh';
         this.statusItem.text = '$(sync~spin) GLM: --';
-        this.statusItem.tooltip = vscode.l10n.t('Click to view details');
+        // 悬停提示：两段均为命令链接，"刷新数据"触发刷新，"查看详情"打开侧栏并刷新
+        const refreshLink = `[${vscode.l10n.t('Refresh data')}](command:glmPlanUsage.refresh)`;
+        const detailsLink = `[${vscode.l10n.t('View details')}](command:glmPlanUsage.viewDetails)`;
+        const tooltip = new vscode.MarkdownString(`${refreshLink} | ${detailsLink}`);
+        tooltip.isTrusted = { enabledCommands: ['glmPlanUsage.refresh', 'glmPlanUsage.viewDetails'] };
+        this.statusItem.tooltip = tooltip;
         this.statusItem.hide();
 
         this.outputChannel = vscode.window.createOutputChannel('GLM Plan Usage');

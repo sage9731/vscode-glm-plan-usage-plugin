@@ -37,6 +37,7 @@ body {
 }
 .section-title-row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
@@ -50,6 +51,7 @@ body {
 }
 .section-title-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
 }
@@ -131,6 +133,7 @@ body {
 .radio-link {
   font-size: 10px;
   padding: 2px 8px;
+  white-space: nowrap;
   color: var(--vscode-editor-foreground);
   cursor: pointer;
   background: var(--vscode-input-background);
